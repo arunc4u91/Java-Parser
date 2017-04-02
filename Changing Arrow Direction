@@ -1,0 +1,24 @@
+Changing arrows direction
+
+By default, links between classes have two dashes -- and are vertically oriented. It is possible to use horizontal link by putting a single dash (or dot) like this:
+@startuml
+Room o- Student
+Room *-- Chair
+@enduml
+controlling arrows direction
+You can also change directions by reversing the link:
+@startuml
+Student -o Room
+Chair --* Room
+@enduml
+changing arrows direction
+It is also possible to change arrow direction by adding left, right, up or down keywords inside the arrow:
+@startuml
+foo -left-> dummyLeft 
+foo -right-> dummyRight 
+foo -up-> dummyUp 
+foo -down-> dummyDown
+@enduml
+left right up and down example
+You can shorten the arrow by using only the first character of the direction (for example, -d- instead of -down-) or the two first characters (-do-).
+Please note that you should not abuse this functionality : Graphviz gives usually good results without tweaking.
