@@ -1,0 +1,11 @@
+Use generics
+
+You can also use bracket < and > to define generics usage in a class.
+@startuml
+
+class Foo<? extends Element> {
+  int size()
+}
+Foo *- Element
+
+@enduml
