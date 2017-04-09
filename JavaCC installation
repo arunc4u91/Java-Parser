@@ -1,0 +1,15 @@
+The download should have placed into your file system either a zip or gzip file containing the JavaCC software.
+
+To install, open a command line, go to the directory where the file was installed, and depending on which file you downloaded either type:
+
+unzip javacc-6.0.zip 
+
+for zip files, or:
+
+gunzip javacc-6.0.tar.gz 
+
+followed by
+
+tar xvf javacc-6.0.tar 
+
+for gzip files.
