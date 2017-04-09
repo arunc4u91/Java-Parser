@@ -1,0 +1,22 @@
+PlantUML in a nutshell
+
+
+PlantUML is a component that allows to quickly write :
+  Sequence diagram
+  Usecase diagram
+  Class diagram
+  Activity diagram (here is the legacy syntax),
+  Component diagram
+  State diagram
+  Object diagram
+  Deployment diagram 
+  Timing diagram 
+The following non-UML diagrams are also supported:
+  Wireframe graphical interface
+  Archimate diagram
+  Specification and Description Language (SDL)
+  Ditaa diagram
+  Gantt diagram 
+  Mathematic with AsciiMath or JLaTeXMath notation
+Diagrams are defined using a simple and intuitive language.
+
