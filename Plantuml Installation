@@ -1,0 +1,20 @@
+Once you've got the idea, you may install locally PlantUML. (There is a page dedicated on installation here)
+You must have Java installed on your machine, and optionally Graphviz software which are used for all diagrams but sequence diagrams and activity beta diagrams.
+
+Then you can then download the jar file plantuml.jar, and save it on your local disk.
+
+An easy way of testing your installation is to launch the GUI by double-clicking on the JAR file.
+
+You can also include PlantUML into your own scripts or documentation tools:
+
+Make a file containing PlantUML commands, either with an editor or when running other software which calls PlantUML.
+Here is a file called sequenceDiagram.txt:
+
+@startuml
+Alice -> Bob: test
+@enduml 
+Run (or have the software call) PlantUML with this file as input. The output is an image, which either appears in the other software, or is written to an image file on disk.
+For example,
+
+java -jar plantuml.jar sequenceDiagram.txt 
+and the result is a nice diagram in sequenceDiagram.png.
