@@ -1,5 +1,7 @@
 PlantUML in a nutshell
-
+  PlantUML is used to draw UML diagram, using a simple and human readable text description. 
+  Be carefull, because it does not prevent you from drawing inconsistent diagram (like having two classes inheriting from each other, for example). 
+  So it's more a drawing tool than a modeling tool.
 
 PlantUML is a component that allows to quickly write :
   Sequence diagram
