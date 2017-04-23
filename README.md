@@ -12,4 +12,5 @@ Java Compiler Compiler™ (JavaCC™) is the most popular parser generator for u
 
 Latest version of Java parser - 0.6.-10
 
-I am trying to create a Intermittent file between Java parser and PlantUML.
+I am trying to create a Intermittent file between Java parser and PlantUML. This file will be the output of java parser and input to Plant uml.
+
