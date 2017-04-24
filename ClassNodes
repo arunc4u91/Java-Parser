@@ -1,0 +1,81 @@
+import java.util.*;
+import java.io.*;
+
+import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.body.*;
+import japa.parser.ast.type.*;
+import japa.parser.ast.visitor.*;
+
+public class ClassNodes extends VoidVisitorAdapter{
+	private String mnemonic;
+	private String className;
+	private StringBuilder output;
+
+	public ClassNodes(String x,String classes,StringBuilder sb) {
+		// TODO Auto-generated constructor stub
+		this.mnemonic = x;
+		this.className = classes;
+		this.output = sb;
+		
+	}
+	
+	@Override
+	public void visit(MethodDeclaration compiler, Object temp) 
+	{
+		System.out.println("compilationunit");
+	}
+	
+	@Override
+	public void visit(ClassOrInterfaceDeclaration compiler, Object temp) {
+		
+		switch (mnemonic){
+		case "class" : 
+						
+						try {
+							
+							extend_relation((ClassOrInterfaceDeclaration)compiler,temp);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						break;
+						
+		case "interfaces" : 
+						
+						try {
+							implement_relation((ClassOrInterfaceDeclaration)compiler,temp);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+						break;
+	
+		}
+	}
+	
+	
+	private void implement_relation(ClassOrInterfaceDeclaration obj, Object temp) throws IOException {
+		List<ClassOrInterfaceType> array = obj.getImplements();
+		String contents = this.output.toString();
+		if(array!=null){
+			for(ClassOrInterfaceType type : array){
+				String implement = type.toString();
+				if((!output.toString().contains(output.toString()+"<|.. "+this.className))&&(!output.toString().contains(output.toString()+"<.. "+this.className+ ":uses")))
+				this.output.append(implement+" "+"<|.. "+this.className+"\n");
+			}
+		}	
+		
+	}
+	private void extend_relation(ClassOrInterfaceDeclaration obj, Object temp) throws IOException {
+		List<ClassOrInterfaceType> array = obj.getExtends();
+		if(array!=null){
+			
+			for(ClassOrInterfaceType type : array){
+				String extend = type.toString();
+				this.output.append(extend+" "+"<|-- "+this.className+"\n");
+			}
+		}
+	}
+	
+	
+
+
+}
