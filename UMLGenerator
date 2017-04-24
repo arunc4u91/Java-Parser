@@ -1,0 +1,119 @@
+import java.io.FileInputStream;
+import java.io.*;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import japa.parser.JavaParser;
+import japa.parser.ParseException;
+import japa.parser.ast.CompilationUnit;
+
+import japa.parser.ast.body.TypeDeclaration;
+
+public class UMLGenerator {
+	private static final int BUFFER_SIZE = 4096;
+	String zipFilePath;
+	String destDirectory;
+	static ArrayList<String> list = new ArrayList<String>();
+	
+	public UMLGenerator() {
+		this.zipFilePath = "/Users/Alex/Documents/workspace/UMLParser/src/Test2.zip";
+		this.destDirectory = "/Users/Alex/Documents/workspace/UMLParser/src/input";
+		
+	}
+	public void unzip() throws IOException {
+		File destDir = new File(this.destDirectory);
+		if (!destDir.exists()) {
+			destDir.mkdir();
+		}
+
+		ZipInputStream zipIn = new ZipInputStream(new FileInputStream(this.zipFilePath));
+
+		ZipEntry entry = zipIn.getNextEntry();
+
+		// iterates over entries in the zip file
+		while (entry != null) {
+			String filePath = this.destDirectory + File.separator + entry.getName();
+			if (!entry.isDirectory()) {
+				// if the entry is a file, extracts it
+				extractFile(zipIn, filePath);
+			} else {
+				// if the entry is a directory, make the directory
+				File dir = new File(filePath);
+				dir.mkdir();
+			}
+			zipIn.closeEntry();
+			entry = zipIn.getNextEntry();
+		}
+		zipIn.close();
+	}
+	
+	private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
+		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+		byte[] bytesIn = new byte[BUFFER_SIZE];
+		int read = 0;
+		while ((read = zipIn.read(bytesIn)) != -1) {
+			bos.write(bytesIn, 0, read);
+		}
+		bos.close();
+	}
+	
+	private void extract(){
+		try {
+			this.unzip();
+			
+		} catch (Exception ex) {
+			// some errors occurred
+			ex.printStackTrace();
+		}
+	}
+	
+	public String getDest(){
+		return this.destDirectory;
+	}
+	
+	public static void main(String args[]) throws IOException, ParseException{
+		
+		UMLGenerator unzipper = new UMLGenerator();
+		unzipper.extract();
+		String path = unzipper.getDest();
+		File file = new File(path+ File.separator +"inter.txt");
+		StringBuilder sb = new StringBuilder();
+        sb.append("@startuml\n");
+        sb.append("skinparam classAttributeIconSize 0\n");
+        sb.append("skinparam monochrome true\n");
+        File[] fileList = new File(path).listFiles();
+        for(File obj:fileList){
+        	if(obj.getName().contains(".java")) {
+        		FileInputStream inputFile = new FileInputStream(obj.getAbsolutePath());
+        		CompilationUnit compiler = JavaParser.parse(inputFile);
+        		String content = compiler.toString();
+        		if(content.contains("class"))
+        			sb.append("class ");
+        		else
+        			sb.append("interface ");
+        		List types = compiler.getTypes(); 
+        		TypeDeclaration typeDec = (TypeDeclaration) types.get(0);
+		        String className = typeDec.getName();
+		        sb.append(className+"\n");
+		        ClassNodes interfaces = new ClassNodes("interfaces",className,sb);
+        		interfaces.visit(compiler, null);
+        		ClassNodes classes = new ClassNodes("class",className,sb);
+        		classes.visit(compiler, null);
+        		Methods methods = new Methods(className,sb);
+        		methods.visit(compiler, null);
+        		
+        	}
+        	
+        }
+        
+        
+        
+        sb.append("@enduml\n");
+        //System.out.println(sb.toString());
+		
+		
+		
+	}
+	
+}
